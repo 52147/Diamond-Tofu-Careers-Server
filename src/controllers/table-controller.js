@@ -5,12 +5,12 @@ const admin = require("firebase-admin");
 //   credential: admin.credential.cert(serviceAccount),
 //   databaseURL: "https://diamond-tofu-career-default-rtdb.firebaseio.com",
 // });
-const express = require('express');
+const express = require("express");
 const cors = require("cors");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 const app = express.Router();
-app.use(cors()); 
+app.use(cors());
 const db = admin.firestore();
 app.use(bodyParser.json());
 

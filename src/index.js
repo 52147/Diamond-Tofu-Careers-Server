@@ -43,6 +43,14 @@ app.listen(port, () => {
 
 
 
-const wiki = require("./controllers/table-controller");
+const table = require("./controllers/table-controller");
 // …
-app.use("/resumes", wiki);
+app.use("/resumes", table);
+
+const login = require("./controllers/login-controller");
+// …
+app.use("/login", login);
+
+const profilemiddleware = require("./controllers/profile-controller");
+// …
+app.use("/profile", profilemiddleware);
