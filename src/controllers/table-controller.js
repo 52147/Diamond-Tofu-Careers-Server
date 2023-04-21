@@ -1,15 +1,20 @@
 const admin = require("firebase-admin");
 // Initialize Firebase Admin SDK
-const serviceAccount = require("../../serviceAccountKey.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://diamond-tofu-career-default-rtdb.firebaseio.com",
-});
+// const serviceAccount = require("../../serviceAccountKey.json");
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://diamond-tofu-career-default-rtdb.firebaseio.com",
+// });
+const express = require('express');
+const cors = require("cors");
+const bodyParser = require('body-parser');
 
+const app = express.Router();
+app.use(cors()); 
 const db = admin.firestore();
+app.use(bodyParser.json());
 
-app.get("/resumes", async (req, res) => {
-  return  res.json("123456");
+app.get("/", async (req, res) => {
   try {
     const resumesRef = db.collection("resumes");
     const snapshot = await resumesRef.get();
@@ -19,21 +24,17 @@ app.get("/resumes", async (req, res) => {
       const docData = doc.data();
       data.push({ ...docData, id: doc.id });
     });
-
-    // res.render("index", { data });
+    return res.json(data);
   } catch (error) {
     console.error(error);
-    res.render("error");
+    res.status(500).send("Error");
   }
-
-  return res.json(data);
-
-
-
 });
 
 app.post("/update", async (req, res) => {
   const { id, status } = req.body;
+  console.log(req.body);
+  console.log(id);
   const docRef = db.collection("resumes").doc(id);
   try {
     await docRef.update({ status });
@@ -44,3 +45,5 @@ app.post("/update", async (req, res) => {
     res.status(500).send("Error");
   }
 });
+
+module.exports = app;
