@@ -32,3 +32,13 @@ https://juejin.cn/post/6844904191316459527
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 ```
+### 問題 3
+使用不同的module 模塊，要如何用只使用app.js，啟動所有模塊中的路由處理器。     
+在主應用中引入module，ex: 在 app.js 引入 wiki.js中的路由     
+要注意的是  wiki.js中的路由參數，將全部接著從/wiki 子目錄中往下定義。   
+```javascript
+const wiki = require('./wiki.js');
+// ...
+app.use('/wiki', wiki);
+```
+https://developer.mozilla.org/zh-CN/docs/Learn/Server-side/Express_Nodejs/routes
