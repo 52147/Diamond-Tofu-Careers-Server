@@ -3,7 +3,7 @@
 
 ## 問題
 
-## 問題 1
+### 問題 1
 
 修改完node檔案後需要重啟伺服器，但重啟卻遇到 localhost: 3001 inused     
 
@@ -21,7 +21,7 @@ npm install --save-dev nodemon
 ```
 sudo npm install -g nodemon
 ```
-
+https://juejin.cn/post/6844904191316459527
 ### 問題 2
 傳到後端的資料不行被解構（destructed），所以obejct 顯示undefined。    
 當使用POST request將json傳到後端時，通常是json 是放在request body，如果需要使用放在request body 的 json data 需要使用 parser 中間件 在Express。    
