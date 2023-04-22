@@ -47,4 +47,38 @@ const wiki = require('./wiki.js');
 app.use('/wiki', wiki);
 ```
 https://developer.mozilla.org/zh-CN/docs/Learn/Server-side/Express_Nodejs/routes
+### 問題 4
 
+用某一次的commit 紀錄覆蓋掉main。
+1. 先用log 找到commit 紀錄的SHA KEY
+```
+git log
+```
+2. 接著切換到那次commit 紀錄
+```
+git checkout <SHA>
+```
+3. 為那次commit紀錄創建一個新的分支
+```
+git checkout -b new_branch_name
+```
+4. 將更改推到github上
+```
+git add .
+git commit -m "commit message"
+git push origin new_branch_name
+```
+4. 切換到分支
+```
+git checkout branch_name
+```
+5. 使用ours 將分支內容合併到main，並且忽略掉main上的內容，這樣可以直接將分之內容覆蓋掉main分支。
+```
+git merge -s ours main
+```
+6. 最後，將合併後的更改，推到github上的main分支
+```
+git checkout main
+git merge branch_name
+git push origin main
+```
