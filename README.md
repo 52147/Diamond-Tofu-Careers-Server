@@ -68,15 +68,15 @@ git add .
 git commit -m "commit message"
 git push origin new_branch_name
 ```
-4. 切換到分支
+5. 切換到分支
 ```
 git checkout branch_name
 ```
-5. 使用ours 將分支內容合併到main，並且忽略掉main上的內容，這樣可以直接將分之內容覆蓋掉main分支。
+6. 使用ours 將分支內容合併到main，並且忽略掉main上的內容，這樣可以直接將分之內容覆蓋掉main分支。
 ```
 git merge -s ours main
 ```
-6. 最後，將合併後的更改，推到github上的main分支
+7. 最後，將合併後的更改，推到github上的main分支
 ```
 git checkout main
 git merge branch_name
