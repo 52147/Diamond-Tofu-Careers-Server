@@ -1,10 +1,4 @@
 const admin = require("firebase-admin");
-// Initialize Firebase Admin SDK
-// const serviceAccount = require("../../serviceAccountKey.json");
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://diamond-tofu-career-default-rtdb.firebaseio.com",
-// });
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");

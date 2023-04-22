@@ -12,8 +12,6 @@ app.post("/", async (req, res) => {
   try {
     const user = req.body.user;
     const uid = user.uid;
-    // localStorage.setItem("uid", uid);
-    // localStorage.setItem("isLoggedIn", true);
 
     const email = user.email;
 
@@ -33,6 +31,7 @@ app.post("/", async (req, res) => {
         res.status(200).send("2");
       } else {
         console.log("UID is not authorized.");
+        res.status(200).send("3");
       }
     }
   } catch (error) {
@@ -41,45 +40,39 @@ app.post("/", async (req, res) => {
 });
 
 app.post("/later", async (req, res) => {
-  const handleSignIn = async () => {
-    try {
-      const response = await signInWithGooglePopup();
-      const email = response.user.email;
-      console.log(response.user);
-      console.log(response.user.uid);
-      setLoading(true);
+  const uid = req.query.uid;
+  const docId = req.body.docID;
+  console.log(docId);
 
-      const db = getFirestore();
-      const resumesRef = collection(db, "resumes");
+  if (!docId) {
+    console.error("Invalid data");
+    return res.status(400).send("Invalid data");
+  }
 
-      try {
-        const docRef = doc(resumesRef, setDocument); // 用doc() 拿到document idsetDocument is the document ID
-        const docSnapshot = await getDoc(docRef);
-        if (docSnapshot.exists()) {
-          const docData = docSnapshot.data();
-          // do something with the document data
-          console.log("hello");
-          await updateDoc(docRef, { uid: response.user.uid }); // Update the document
-          console.log("123456");
-          setShowModal(true);
-        } else {
-          console.log("No matching document found");
-        }
-      } catch (error) {
-        console.error("Error updating document:", error);
-      }
+  const resumesRef = db.collection("resumes");
 
-      setLoading(false);
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
+  try {
+    const docSnapshot = await resumesRef.doc(docId).get();
+
+    if (!docSnapshot.exists) {
+      console.log("No matching document found");
+      return res.status(404).send("Resume not found");
     }
-  };
 
-  // Call handleSignIn function here
-  handleSignIn();
+    const docData = docSnapshot.data();
 
-  // Send response
-  res.send("Sign in process started...");
+    await resumesRef.doc(docId).update({
+      ...docData,
+      uid,
+    });
+
+    console.log("Resume updated with UID:", uid);
+
+    return res.status(200).send("Resume updated");
+  } catch (error) {
+    console.error("Error updating resume:", error);
+    return res.status(500).send("An error occurred while updating the resume");
+  }
 });
 
 module.exports = app;
