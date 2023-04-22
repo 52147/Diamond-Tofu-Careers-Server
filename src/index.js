@@ -10,7 +10,6 @@ admin.initializeApp({
 
 // Create Express app
 const app = express();
-const db = admin.firestore();
 app.use(cors());
 
 // Handle API requests
