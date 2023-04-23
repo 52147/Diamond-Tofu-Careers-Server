@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
         last_name: data.lastN || "",
         email: data.email || "",
         phone: data.phone || "",
-        address: data.address || "",
+        location: data.location || "",
         resume: data.resume || "",
         title: data.title || "",
         status: data.status || "",
@@ -55,6 +55,7 @@ router.get("/status", async (req, res) => {
         id: doc.id,
         title: data.title,
         status: data.status,
+        apply_time: data.apply_time
       };
 
       documents.push(document);
@@ -69,7 +70,7 @@ router.get("/status", async (req, res) => {
 
 router.post("/update", async (req, res) => {
     const uid = req.query.uid;
-    const { email, phone, address, resume } = req.body;
+    const { email, phone, location, resume } = req.body;
     const resumesRef = db.collection("resumes");
   
     try {
@@ -81,7 +82,7 @@ router.post("/update", async (req, res) => {
       }
   
       const docRef = querySnapshot.docs[0].ref;
-      await docRef.update({ email, phone, address, resume });
+      await docRef.update({ email, phone, location, resume });
       console.log("User updated successfully");
       return res.status(200).send("User updated successfully");
     } catch (error) {
